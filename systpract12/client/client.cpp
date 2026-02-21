@@ -26,10 +26,10 @@ int main() {
             << "5 — завершить работу\n"
             << "> ";
 
-        char userChoice = _getch();
+        char x = _getch();
         std::cout << "\n";
 
-        if (userChoice == '1') {
+        if (x == '1') {
             if (WaitForSingleObject(printerMutex, 0) == WAIT_TIMEOUT) {
                 system("cls");
                 std::cout << "Мьютекс занят. Повторите позже.\n";
@@ -37,29 +37,30 @@ int main() {
             else {
                 system("cls");
                 std::cout << "Задание отправлено на печать.\n";
+
                 Sleep(1000);
                 ReleaseMutex(printerMutex);
-                Sleep(1000);
 
                 WaitForSingleObject(printerMutex, INFINITE);
+
                 system("cls");
                 std::cout << "Печать завершена.\n";
                 ReleaseMutex(printerMutex);
             }
         }
-        else if (userChoice == '2') {
+        else if (x == '2') {
             SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);
             std::cout << "Фоновый приоритет установлен.\n";
         }
-        else if (userChoice == '3') {
+        else if (x == '3') {
             SetPriorityClass(GetCurrentProcess(), NORMAL_PRIORITY_CLASS);
             std::cout << "Нормальный приоритет установлен.\n";
         }
-        else if (userChoice == '4') {
+        else if (x == '4') {
             SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
             std::cout << "Высокий приоритет установлен.\n";
         }
-        else if (userChoice == '5') {
+        else if (x == '5') {
             std::cout << "Завершение работы клиента.\n";
             CloseHandle(printerMutex);
             Sleep(3000);
@@ -69,7 +70,7 @@ int main() {
             std::cout << "Неизвестная команда.\n";
         }
 
-        Sleep(2500);
+        Sleep(1000);
         CloseHandle(printerMutex);
     }
     return 0;

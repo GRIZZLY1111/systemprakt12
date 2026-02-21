@@ -7,7 +7,7 @@
 DWORD WINAPI Print(LPVOID) {
     std::cout << "Печать...\n";
     srand(GetTickCount64());
-    Sleep(5000 + rand() % 11000);
+    Sleep(5000 + rand() % 10001);
     return 0;
 }
 
@@ -23,7 +23,7 @@ int main() {
     std::cout << "Принтер запущен. Ожидание заданий...\n";
 
     int idleSeconds = 0;
-    const int MAX_IDLE_SECONDS = 240;
+    const int MAX_IDLE_SECONDS = 600;
 
     while (idleSeconds <= MAX_IDLE_SECONDS) {
         std::cout << "Ожидание...\n";
@@ -41,7 +41,7 @@ int main() {
                 break;
             }
 
-            if (WaitForSingleObject(printThread, 15000) == WAIT_OBJECT_0) {
+            if (WaitForSingleObject(printThread, 10000) == WAIT_OBJECT_0) {
                 system("cls");
                 std::cout << "Готово\n";
             }
@@ -57,13 +57,13 @@ int main() {
         }
 
         ReleaseMutex(printerMutex);
-        Sleep(2500);
+        Sleep(1000);
         system("cls");
     }
 
     CloseHandle(printerMutex);
     std::cout << "Принтер отключился из-за бездействия.\n";
-    _getch();
+    Sleep(2500);
     return 0;
 }
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
